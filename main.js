@@ -1,6 +1,6 @@
 const express = require('express');
 const dotenv = require('dotenv');
-const routes = require('./src/routes');
+// const routes = require('./src/routes');
 
 
 // Load environment variables
