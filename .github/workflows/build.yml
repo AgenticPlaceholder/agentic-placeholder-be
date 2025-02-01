@@ -62,6 +62,7 @@ jobs:
             git log -1
 
             npm ci  # Install dependencies
+            npm run build  # Build the project
 
             # Stop and delete the existing PM2 process
             pm2 stop agentic-placeholder-be || true
