@@ -54,46 +54,25 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           script: |
-            set -e  # Exit on any error
-            
-            # Load NVM and set Node version
-            export NVM_DIR="$HOME/.nvm"
-            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-            nvm use 20.14.0 || nvm install 20.14.0
-            
-            # Navigate to project directory
-            cd agentic-placeholder-be
-            
-            # Backup current version (optional)
-            # cp .env .env.backup || true
-            
-            # Update code
+            export PATH="$HOME/.nvm/versions/node/v20.14.0/bin:$PATH"
+            cd agentic-placeholder-be/
             git fetch origin main
             git reset --hard origin/main
-            
-            # Install dependencies only if package files changed
-            if [[ "${{ steps.check_changes.outputs.package_changes }}" == "true" ]]; then
-              echo "Package files changed, installing dependencies..."
-              npm ci --production
-            fi
-            
-            # Build application
-            npm run build
-            
-            # PM2 process management
-            if pm2 list | grep -q "agentic-placeholder-be"; then
-              pm2 reload agentic-placeholder-be --update-env
-            else
-              npm run pm2:start
-            fi
-            
-            # Save PM2 process list
+            echo "Current commit:"
+            git log -1
+
+            npm ci  # Install dependencies
+            npm run build  # Build the application
+
+            # Stop and delete the existing PM2 process
+            pm2 stop agentic-placeholder-be || true
+            pm2 delete agentic-placeholder-be || true
+
+            # Start a new PM2 process using the npm script
+            npm run pm2:start
+
+            # Save the current process list
             pm2 save
-            
-            # Verify deployment
-            echo "Deployment completed. Current commit:"
-            git log -1 --oneline
-            echo "PM2 status:"
-            pm2 list
+            echo "Deployment successful!"
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
