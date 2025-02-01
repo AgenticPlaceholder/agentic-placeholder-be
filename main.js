@@ -1,6 +1,6 @@
 const express = require('express');
 const dotenv = require('dotenv');
-// const routes = require('./src/routes');
+const routes = require('./src/routes');
 
 
 // Load environment variables
@@ -14,7 +14,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Routes
-// app.use('/api', routes);
+app.use('/api', routes);
 
 
 app.listen(PORT, () => {
