@@ -54,7 +54,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           script: |
-            export PATH="$HOME/.nvm/versions/node/v20.14.0/bin:$PATH"
+            export PATH="$HOME/.nvm/versions/node/v22.13.1/bin:$PATH"
             cd agentic-placeholder-be/
             git fetch origin main
             git reset --hard origin/main
