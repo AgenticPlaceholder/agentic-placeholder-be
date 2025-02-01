@@ -2,25 +2,32 @@
   "name": "agentic-placeholder-be",
   "version": "1.0.0",
   "description": "",
-  "main": "main.js",
+  "main": "main.ts",
   "scripts": {
-    "start": "node main.js",
-    "dev": "nodemon main.js",
+    "start": "ts-node main.ts",
+    "dev": "nodemon --exec ts-node main.ts",
+    "build": "tsc",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "pm2:start": "pm2 start main.js --name agentic-placeholder-be"
+    "pm2:start": "pm2 start dist/main.js --name agentic-placeholder-be"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@truenetworkio/sdk": "^0.0.18",
     "chalk": "^4.1.2",
     "dotenv": "^16.4.7",
-    "express": "^4.21.2"
+    "express": "^4.21.2",
+    "nodemon": "^3.1.9"
   },
   "devDependencies": {
     "@eslint/js": "^9.19.0",
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.13.0",
     "eslint": "^9.19.0",
-    "globals": "^15.14.0"
+    "globals": "^15.14.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.3"
   }
 }
