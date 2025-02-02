@@ -4,15 +4,15 @@ import { adAttestationSchema } from '../../../true-network/schema/userAttestatio
 export const attestationService = {
 
     attest: async function(attestationData: any) {
-
-        console.log('Received attestation on file:', attestationData);
-            
+        console.log('Received attestation on file:', attestationData);       
         const api = await getTrueNetworkInstance();
-
-        const adAttestationOutput = await adAttestationSchema.attest(api, attestationData.userAddress, {
+        const adAttestationOutput = await adAttestationSchema.attest(api, attestationData.publisherAddress, {
             rating: attestationData.rating,
+            userAddress: attestationData.userAddress,
         });
-        console.log(adAttestationOutput)
+        console.log('Prism URL:', adAttestationOutput.prismUrl);
+        console.log('transactionHash:', adAttestationOutput.transaction.hash);
+        console.log('Explorer URL:', adAttestationOutput.transaction.explorerUrl); 
         await api.network.disconnect()
     }
 
