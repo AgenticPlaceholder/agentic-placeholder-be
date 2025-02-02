@@ -3,6 +3,7 @@ import express from 'express';
 const router = express.Router();
 import userRoutes from '../modules/user/user.routes';
 import operatorRoutes from '../modules/operator/operator.routes';
+import publisherRoutes from '../modules/publisher/publisher.routes';
 
 // Health check route
 router.get('/health', (req, res) => {
@@ -16,4 +17,5 @@ router.get('/health', (req, res) => {
 // Module routes
 router.use('/user', userRoutes);
 router.use('/operator', operatorRoutes);
+router.use('/publisher', publisherRoutes);
 export { router };
