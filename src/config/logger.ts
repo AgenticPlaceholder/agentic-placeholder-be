@@ -1,22 +1,32 @@
-const chalk = require('chalk');
+import chalk from 'chalk';
 
-const logger = {
-    info: (message) => {
+interface Logger {
+    info: (message: string) => void;
+    error: (message: string, error?: unknown) => void;
+    success: (message: string) => void;
+    request: (method: string, path: string, status: number, duration: number) => void;
+}
+
+const logger: Logger = {
+    info: (message: string): void => {
         const timestamp = new Date().toISOString();
         console.log(chalk.cyan(`[${timestamp}] INFO: ${message}`));
     },
     
-    error: (message) => {
+    error: (message: string, error?: unknown): void => {
         const timestamp = new Date().toISOString();
         console.log(chalk.red(`[${timestamp}] ERROR: ${message}`));
+        if (error) {
+            console.error(chalk.red(error instanceof Error ? error.stack : String(error)));
+        }
     },
     
-    success: (message) => {
+    success: (message: string): void => {
         const timestamp = new Date().toISOString();
         console.log(chalk.green(`[${timestamp}] SUCCESS: ${message}`));
     },
 
-    request: (method, path, status, duration) => {
+    request: (method: string, path: string, status: number, duration: number): void => {
         const timestamp = new Date().toISOString();
         const statusColor = status < 400 ? chalk.green : chalk.red;
         console.log(
@@ -29,4 +39,4 @@ const logger = {
     }
 };
 
-module.exports = logger;
+export default logger;
