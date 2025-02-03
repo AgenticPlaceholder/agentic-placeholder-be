@@ -8,6 +8,8 @@ on:
 jobs:
   validate:
     runs-on: ubuntu-latest
+    permissions:  # Add permissions for validate job
+      contents: write
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -21,6 +23,11 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Set file permissions  # Add this step
+        run: |
+          sudo chown -R $USER:$USER .
+          sudo chmod -R 755 .
+
       - name: Run lint checks
         run: npm run lint
         
@@ -31,6 +38,9 @@ jobs:
   deploy:
     needs: validate
     runs-on: ubuntu-latest
+    permissions:  # Add permissions for deploy job
+      contents: write
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -56,11 +66,14 @@ jobs:
           script: |
             export PATH="$HOME/.nvm/versions/node/v22.13.1/bin:$PATH"
             cd agentic-placeholder-be/
+            sudo chown -R ubuntu:ubuntu .
+            sudo chmod -R 755 .
             git fetch origin main
             git reset --hard origin/main
             echo "Current commit:"
             git log -1
 
+            rm -rf dist/  # Clear dist directory first
             npm ci  # Install dependencies
             npm run build  # Build the project
 
