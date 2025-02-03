@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import logger from './src/config/logger';
 // Import routes without default
 import { router as routes } from './src/routes';
+import { connectDB } from './src/config/database';
 
 // Load environment variables
 dotenv.config();
@@ -27,8 +28,21 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 // Routes
 app.use('/api', routes);
 
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+// Initialize server
+const startServer = async () => {
+  try {
+    // Connect to MongoDB
+    await connectDB();
+    
+    app.listen(PORT, () => {
+      logger.info(`Server is running on port ${PORT}`);
+    });
+  } catch (error) {
+    logger.error('Failed to start server:', error);
+    process.exit(1);
+  }
+};
+
+startServer();
 
 export default app;
