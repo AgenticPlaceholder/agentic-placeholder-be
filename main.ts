@@ -11,8 +11,8 @@ import cors from 'cors';
 import * as fs from 'fs';
 
 const options = {
-  key: fs.readFileSync('/etc/letsencrypt/live/placeholder.taraxio.com/privkey.pem'),
-  cert: fs.readFileSync('/etc/letsencrypt/live/placeholder.taraxio.com/fullchain.pem')
+  key: fs.readFileSync('./certs/privkey.pem'),
+  cert: fs.readFileSync('./certs/fullchain.pem')
 };
 
 // Load environment variables
