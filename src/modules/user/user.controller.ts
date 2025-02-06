@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 
 interface AttestationData {
     publisherAddress: string;
+    operatorAddress: string;
     rating: number;
     userAddress: string;
     signature: string;
