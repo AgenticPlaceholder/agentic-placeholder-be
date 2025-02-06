@@ -9,7 +9,7 @@
     "build": "tsc",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "pm2:start": "pm2 start dist/main.js --name agentic-placeholder-be"
+    "pm2:start": "sudo pm2 start dist/main.js --name agentic-placeholder-be"
   },
   "keywords": [],
   "author": "",
