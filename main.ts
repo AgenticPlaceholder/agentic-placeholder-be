@@ -5,18 +5,25 @@ import logger from './src/config/logger';
 import { router as routes } from './src/routes';
 import { connectDB } from './src/config/database';
 import { WebSocketService } from './src/modules/websocket/websocket.service';
-import { createServer } from 'http';
+// import { EventService } from './src/modules/events/events.service';
+import { createServer } from 'https';
 import cors from 'cors';
+import * as fs from 'fs';
+
+const options = {
+  key: fs.readFileSync('/etc/letsencrypt/live/placeholder.taraxio.com/privkey.pem'),
+  cert: fs.readFileSync('/etc/letsencrypt/live/placeholder.taraxio.com/fullchain.pem')
+};
 
 // Load environment variables
 dotenv.config();
 
 const app = express();
-const httpServer = createServer(app);
+const httpsServer = createServer(options, app);
 const PORT = process.env.PORT || 4000;
 // Initialize WebSocket Service with the HTTP server
-const wsService = new WebSocketService(httpServer);
-
+const wsService = new WebSocketService(httpsServer);
+// let eventService : EventService;
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -41,9 +48,9 @@ const startServer = async () => {
     // Connect to MongoDB
     await connectDB();
     
-    httpServer.listen(PORT, () => {
-      logger.info(`Server is running on port ${PORT}`);
-      logger.info(`WebSocket server is also running on port ${PORT}`);
+    httpsServer.listen(443, () => {
+      logger.info(`Secure server running on port ${PORT}`);
+      logger.info(`WSS server running on wss://placeholder.taraxio.com`);
     });
   } catch (error) {
     logger.error('Failed to start server:', error);
