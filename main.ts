@@ -4,8 +4,9 @@ import logger from './src/config/logger';
 // Import routes without default
 import { router as routes } from './src/routes';
 import { connectDB } from './src/config/database';
-import { WebSocketService } from './src/modules/websocket.service';
+import { WebSocketService } from './src/modules/websocket/websocket.service';
 import { createServer } from 'http';
+import cors from 'cors';
 
 // Load environment variables
 dotenv.config();
@@ -19,6 +20,7 @@ const wsService = new WebSocketService(httpServer);
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cors());
 
 // Add logging middleware
 app.use((req: Request, res: Response, next: NextFunction) => {
