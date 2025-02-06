@@ -74,8 +74,17 @@ jobs:
             git log -1
 
             rm -rf dist/  # Clear dist directory first
+            rm -rf node_modules/
+
             npm ci  # Install dependencies
             npm run build  # Build the project
+
+            # Verify build output exists
+            if [ ! -f "dist/main.js" ]; then
+              echo "Build failed - dist/main.js not found"
+              exit 1
+            fi
+
 
             # Stop and delete the existing PM2 process
             pm2 stop agentic-placeholder-be || true
