@@ -56,6 +56,7 @@ export const adService = {
                             reputationScore: '$publisher.reputationScore'
                         },
                         AdInfo: {
+                            adId: '$adId',
                             adTitle: '$adTitle',
                             adDescription: '$adDescription',
                             adImage: '$adImage',

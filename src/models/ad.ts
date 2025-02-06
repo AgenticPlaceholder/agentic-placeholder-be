@@ -5,7 +5,6 @@ export interface IAd extends Document {
     adTitle: string;
     adDescription: string;
     adImage: string;
-    reputationScore: number;
     moneySpent: number;
     status: 'active' | 'inactive' ;
     publisherAddress: string;
@@ -38,10 +37,6 @@ const adSchema = new Schema<IAd>(
             type: String,
             required: [true, 'Ad image URL is required'],
             trim: true
-        },
-        reputationScore: {
-            type: Number,
-            default: 0
         },
         moneySpent: {
             type: Number,
