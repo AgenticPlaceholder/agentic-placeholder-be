@@ -15,6 +15,7 @@ export const attest = async (req: Request, res: Response) => {
             success: true,
             message : "Data submitted successully"
         });
+        await userService.addRating(attestationData);
         await userService.attestUser(attestationData);
     } catch (error) {
         console.error('Attestation error:', error);
