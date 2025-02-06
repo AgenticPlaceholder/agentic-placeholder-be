@@ -45,5 +45,5 @@ const ratingSchema = new Schema<IRating>(
 );
 
 
-ratingSchema.index({ publisherAddress: 1, userAddress: 1 }, { unique: true });
+ratingSchema.index({ publisherAddress: 1, userAddress: 1 });
 export const Rating = mongoose.model<IRating>('Rating', ratingSchema);
