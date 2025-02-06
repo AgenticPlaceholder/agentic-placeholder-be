@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { adService } from './ad.service';
+import { wsService } from '../../../main';
 
 export const publishAd = async (req: Request, res: Response) => {
     try {
@@ -11,11 +12,25 @@ export const publishAd = async (req: Request, res: Response) => {
         req.body.status = 'active';
         // Call the service to publish the ad
         await adService.publishAd(req.body);
+
+        // Notify connected clients through WebSocket
+        wsService.publishAd({
+            adId,
+            publisherAddress,
+            adTitle,
+            adDescription,
+            adImage,
+            operatorAddress,
+            moneySpent,
+            status: 'active',
+            timestamp: new Date().toISOString()
+        });
+
         res.json({
             success: true,
-            message : "Ad published successully"
+            message: "Ad published successully"
         });
-       
+
     } catch (error) {
         console.error('Error:', error);
         res.status(500).json({ error: 'Internal server error' });
