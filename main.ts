@@ -4,12 +4,17 @@ import logger from './src/config/logger';
 // Import routes without default
 import { router as routes } from './src/routes';
 import { connectDB } from './src/config/database';
+import { WebSocketService } from './src/modules/websocket.service';
+import { createServer } from 'http';
 
 // Load environment variables
 dotenv.config();
 
 const app = express();
+const httpServer = createServer(app);
 const PORT = process.env.PORT || 4000;
+// Initialize WebSocket Service with the HTTP server
+const wsService = new WebSocketService(httpServer);
 
 // Middleware
 app.use(express.json());
@@ -34,8 +39,9 @@ const startServer = async () => {
     // Connect to MongoDB
     await connectDB();
     
-    app.listen(PORT, () => {
+    httpServer.listen(PORT, () => {
       logger.info(`Server is running on port ${PORT}`);
+      logger.info(`WebSocket server is also running on port ${PORT}`);
     });
   } catch (error) {
     logger.error('Failed to start server:', error);
@@ -45,4 +51,5 @@ const startServer = async () => {
 
 startServer();
 
-export default app;
+// Export both the app and WebSocket service
+export { app, wsService };
