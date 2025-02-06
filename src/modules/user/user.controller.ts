@@ -4,6 +4,7 @@ interface AttestationData {
     publisherAddress: string;
     operatorAddress: string;
     rating: number;
+    comment: string;
     userAddress: string;
     signature: string;
 }

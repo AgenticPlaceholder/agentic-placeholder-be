@@ -6,6 +6,7 @@ export interface IRating extends Document {
     publisherAddress: string;
     userAddress: string;
     rating: number;
+    comment: string;
     isFlagged: boolean;
     createdAt: Date;
     updatedAt: Date;
@@ -32,6 +33,10 @@ const ratingSchema = new Schema<IRating>(
             required: [true, 'Rating is required'],
             min: 1,
             max: 5
+        },
+        comment: {
+            type: String,
+            trim: true
         },
         isFlagged: {
             type: Boolean,

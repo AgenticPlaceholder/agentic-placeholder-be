@@ -8,6 +8,7 @@ export const attestationService = {
         const api = await getTrueNetworkInstance();
         const adAttestationOutput = await adAttestationSchema.attest(api, attestationData.publisherAddress, {
             rating: attestationData.rating,
+            comment: attestationData.comment,
             userAddress: attestationData.userAddress,
         });
         console.log('Prism URL:', adAttestationOutput.prismUrl);
