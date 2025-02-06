@@ -20,7 +20,7 @@ export const attestationService = {
             operatorAddress: attestationData.operatorAddress,
             adId: attestationData.adId,
         });
-        await api.network.disconnect()
+        // await api.network.disconnect()
     }
 
 };
