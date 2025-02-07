@@ -163,9 +163,18 @@ export class EventService {
 
                     // Create new ad in database
                     await Ad.create(adData.data);
+                    
+                    // Add 10 second delay before publishing to WebSocket
+                    console.log('Waiting 10 seconds before publishing to WebSocket...');
+                    setTimeout(() => {
+                        try {
+                            this.wsService.publishAd(adData);
+                            console.log('Ad published to WebSocket after delay');
+                        } catch (error) {
+                            console.error('Error publishing to WebSocket after delay:', error);
+                        }
+                    }, 10000); // 10 seconds in milliseconds
 
-                    // Notify connected clients through WebSocket
-                    this.wsService.publishAd(adData);
 
                     console.log('Winning ad processed successfully:', {
                         tokenId: tokenId.toString(),
