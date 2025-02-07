@@ -19,7 +19,6 @@ const adSchema = new Schema<IAd>(
         adId: {
             type: Number,
             required: [true, 'Ad ID is required'],
-            unique: true
         },
         adTitle: {
             type: String,
