@@ -133,11 +133,14 @@ export class EventService {
             async (tokenId, title, content, imageURL, publisher, bidAmount, event) => {
                 try {
                     console.log('-----------🏆 New Winning Ad Selected 🏆-----------------');
-                    
+                      // Get the latest ad to determine the next adId
+                      const latestAd = await Ad.findOne({}, {}, { sort: { 'adId': -1 } });
+                      const nextAdId = latestAd ? Number(latestAd.adId) + 1 : 1;
                     const adData = {
                         type: 'WinningAdSelected',
                         data: {
-                            adId: tokenId.toString(),
+                            adId: nextAdId,
+                            tokenId: tokenId.toString(),
                             publisherAddress: publisher.toLowerCase(),
                             adTitle: title,
                             adDescription: content,

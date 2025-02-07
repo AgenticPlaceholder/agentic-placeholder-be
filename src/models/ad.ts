@@ -2,6 +2,7 @@ import mongoose, { Document, Schema } from 'mongoose';
 
 export interface IAd extends Document {
     adId : number;
+    tokenId: number;
     adTitle: string;
     adDescription: string;
     adImage: string;
@@ -19,6 +20,11 @@ const adSchema = new Schema<IAd>(
         adId: {
             type: Number,
             required: [true, 'Ad ID is required'],
+            unique: true
+        },
+        tokenId: {
+            type: Number,
+            required: [true, 'Token ID is required'],
         },
         adTitle: {
             type: String,
