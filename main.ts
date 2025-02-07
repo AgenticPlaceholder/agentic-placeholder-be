@@ -36,8 +36,6 @@ if (isDevelopment) {
   console.log('Running in production mode with HTTPS');
 }
 
-// const httpsServer = createServer(options, app);
-// const PORT = process.env.PORT || 4000;
 // Initialize WebSocket Service with the HTTP server
 const wsService = new WebSocketService(server);
 const eventService = new EventService(wsService);
