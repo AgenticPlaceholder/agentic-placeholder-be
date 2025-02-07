@@ -60,6 +60,8 @@ export const publisherService = {
                             // Transform the data into desired format
                             {
                                 $project: {
+                                    adId: 1,
+                                    tokenId: 1,
                                     adTitle: 1,
                                     adDescription: 1,
                                     adImage: 1,
