@@ -87,14 +87,14 @@ jobs:
 
 
             # Stop and delete the existing PM2 process
-            pm2 stop agentic-placeholder-be || true
-            pm2 delete agentic-placeholder-be || true
+            sudo pm2 stop agentic-placeholder-be || true
+            sudo pm2 delete agentic-placeholder-be || true
 
             # Start a new PM2 process using the npm script
             npm run pm2:start
 
             # Save the current process list
-            pm2 save
+            sudo pm2 save
             echo "Deployment successful!"
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
