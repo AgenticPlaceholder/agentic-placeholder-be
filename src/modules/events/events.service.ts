@@ -153,7 +153,7 @@ export class EventService {
                     // Update database: Set all active ads for this publisher to inactive
                     await Ad.updateMany(
                         { 
-                            publisherAddress: publisher,
+                            operatorAddress: "0xecba9756092b7851f4918ec6bab2085b8f88b8ff",
                             status: 'active'
                         },
                         { 
