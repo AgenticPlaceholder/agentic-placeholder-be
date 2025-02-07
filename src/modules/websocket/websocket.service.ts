@@ -33,16 +33,32 @@ export class WebSocketService {
             });
         });
 
+        // Listen for both ad and auction events
         this.eventEmitter.on('adPublished', (adData) => {
             console.log('Broadcasting ad update:', adData);
-            this.broadcastAdUpdate(adData);
+            this.broadcastUpdate('AD_PUBLISHED', adData);
+        });
+
+        this.eventEmitter.on('auctionStarted', (auctionData) => {
+            console.log('Broadcasting auction started:', auctionData);
+            this.broadcastUpdate('AUCTION_STARTED', auctionData);
+        });
+
+        this.eventEmitter.on('auctionStatus', (statusData) => {
+            console.log('Broadcasting auction status:', statusData);
+            this.broadcastUpdate('AUCTION_STATUS', statusData);
+        });
+
+        this.eventEmitter.on('bidPlaced', (bidData) => {
+            console.log('Broadcasting bid placed:', bidData);
+            this.broadcastUpdate('BID_PLACED', bidData);
         });
     }
 
-    private broadcastAdUpdate(adData: any) {
+    private broadcastUpdate(type: string, data: any) {
         const message = JSON.stringify({
-            type: 'AD_PUBLISHED',
-            data: adData
+            type: type,
+            data: data
         });
 
         let successCount = 0;
@@ -57,6 +73,19 @@ export class WebSocketService {
 
     public publishAd(adData: any) {
         this.eventEmitter.emit('adPublished', adData);
+    }
+
+    public publishAuctionStarted(auctionData: any) {
+        this.eventEmitter.emit('auctionStarted', auctionData);
+    }
+
+
+    public publishAuctionStatus(statusData: any) {
+        this.eventEmitter.emit('auctionStatus', statusData);
+    }
+
+    public publishBidPlaced(bidData: any) {
+        this.eventEmitter.emit('bidPlaced', bidData);
     }
 
     public getClientCount(): number {
