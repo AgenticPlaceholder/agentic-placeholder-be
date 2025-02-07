@@ -1,6 +1,7 @@
 import { ethers } from "ethers";
 import { WebSocketService } from '../websocket/websocket.service';
 import * as dotenv from "dotenv";
+import { Ad } from "../../models/ad";
 
 dotenv.config();
 
@@ -21,6 +22,7 @@ export class EventService {
         "event AuctionStarted(uint256 startPrice, uint256 endPrice, uint256 startTime, uint256 duration)",
         "function getAuctionState() external view returns (uint256 currentPrice, bool isActive, uint256 timeRemaining)",
         "event BidPlaced(address bidder, uint256 bidAmount, uint256 tokenId)",
+        "event WinningAdSelected(uint256 indexed tokenId, string title, string content, string imageURL, address indexed publisher, uint256 bidAmount)"
     ];
 
     constructor(wsService: WebSocketService) {
@@ -48,6 +50,7 @@ export class EventService {
         console.log('Starting contract service...');
         this.setupAuctionStartedListener();
         this.setupBidPlacedListener();
+        this.setupWinningAdListener();
         await this.checkAndBroadcastAuctionStatus();
         this.startPolling();
     }
@@ -120,6 +123,59 @@ export class EventService {
                 };
                 console.log('BidPlaced event:', bidData);
                 this.wsService.publishBidPlaced(bidData);
+            }
+        );
+    }
+
+    private setupWinningAdListener() {
+        this.contract.on(
+            "WinningAdSelected",
+            async (tokenId, title, content, imageURL, publisher, bidAmount, event) => {
+                try {
+                    console.log('-----------🏆 New Winning Ad Selected 🏆-----------------');
+                    
+                    const adData = {
+                        type: 'WinningAdSelected',
+                        data: {
+                            adId: tokenId.toString(),
+                            publisherAddress: publisher.toLowerCase(),
+                            adTitle: title,
+                            adDescription: content,
+                            adImage: imageURL,
+                            moneySpent: ethers.utils.formatUnits(bidAmount, 18),
+                            status: 'active',
+                            timestamp: new Date().toLocaleString(),
+                            transactionHash: event.transactionHash,
+                            operatorAddress: "0xecba9756092b7851f4918ec6bab2085b8f88b8ff"
+                        }
+                    };
+
+                    // Update database: Set all active ads for this publisher to inactive
+                    await Ad.updateMany(
+                        { 
+                            publisherAddress: publisher,
+                            status: 'active'
+                        },
+                        { 
+                            status: 'inactive'
+                        }
+                    );
+
+                    // Create new ad in database
+                    await Ad.create(adData.data);
+
+                    // Notify connected clients through WebSocket
+                    this.wsService.publishAd(adData);
+
+                    console.log('Winning ad processed successfully:', {
+                        tokenId: tokenId.toString(),
+                        publisher,
+                        title,
+                        transactionHash: event.transactionHash
+                    });
+                } catch (error) {
+                    console.error('Error processing winning ad event:', error);
+                }
             }
         );
     }
