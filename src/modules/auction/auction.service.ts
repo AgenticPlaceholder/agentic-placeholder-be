@@ -42,8 +42,8 @@ export const auctionService = {
 
     async placeBid(tokenId: number, bidAmount: number) {
         try {
-            const bidAmountWei = ethers.utils.parseUnits("100", 18);
-            const currentPrice = await contract.getCurrentPrice();
+            const bidAmountWei = ethers.utils.parseUnits(bidAmount.toString(), 18);
+            // const currentPrice = await contract.getCurrentPrice();
             console.log('Placing bid for token', tokenId, 'with amount', bidAmountWei.toString());
             
             // Place bid
