@@ -5,6 +5,7 @@ import userRoutes from '../modules/user/user.routes';
 import operatorRoutes from '../modules/operator/operator.routes';
 import publisherRoutes from '../modules/publisher/publisher.routes';
 import adRoutes from '../modules/advertisement/ad.routes';
+import auctionRoutes from '../modules/auction/auction.routes';
 // Health check route
 router.get('/health', (req, res) => {
     res.status(200).json({
@@ -19,5 +20,6 @@ router.use('/user', userRoutes);
 router.use('/operator', operatorRoutes);
 router.use('/publisher', publisherRoutes);
 router.use('/ad', adRoutes);
+router.use('/auction', auctionRoutes);
 
 export { router };
