@@ -23,6 +23,6 @@ export const attest = async (req: Request, res: Response) => {
         await userService.attestUser(attestationData);
     } catch (error) {
         console.error('Attestation error:', error);
-        res.status(500).json({ error: 'Internal server error' });
+        // res.status(500).json({ error: 'Internal server error' });
     }
 };
