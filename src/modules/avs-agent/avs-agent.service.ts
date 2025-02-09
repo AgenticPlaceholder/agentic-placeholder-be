@@ -39,7 +39,7 @@ export const avsService = {
             const receipt = await publicClient.waitForTransactionReceipt({ hash });
             console.log('Transaction hash:', hash);
             // console.log('Transaction receipt:', receipt);
-            return receipt;
+            // return receipt;
         } catch (error) {
             console.error('Error creating task:', error);
             throw error;
