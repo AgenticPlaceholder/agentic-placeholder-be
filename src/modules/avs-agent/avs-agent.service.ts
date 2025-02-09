@@ -5,7 +5,7 @@ import { anvil } from 'viem/chains';
 import 'dotenv/config';
 
 const abi = parseAbi([
-    'function createNewTask(string memory contents, uint8 rating) external returns ((string contents, uint32 taskCreatedBlock))'
+    'function createNewTask(string memory comment, uint8 rating) external returns ((string comment, uint32 taskCreatedBlock))'
 ]);
 
 const contractAddress = '0xe3EF345391654121f385679613Cea79A692C2Dd8';
