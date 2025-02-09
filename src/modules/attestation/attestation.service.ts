@@ -1,6 +1,7 @@
-import { getTrueNetworkInstance } from '../../../true-network/true.config';
+import { getTrueNetworkInstance, config } from '../../../true-network/true.config';
 import { adAttestationSchema } from '../../../true-network/schema/userAttestationSchema';
 import {Attestation} from '../../models/attestation';
+// import {runAlgo} from '@truenetworkio/sdk/dist/pallets/algorithms/extrinsic'
 export const attestationService = {
 
     attest: async function(attestationData: any) {
@@ -21,6 +22,14 @@ export const attestationService = {
             operatorAddress: attestationData.operatorAddress,
             adId: attestationData.adId,
         });
+        // try {
+        //     const reputationScore = await runAlgo(api.network, config.issuer.hash, api.account, attestationData.userAddress, config.algorithm?.id!);
+        // console.log('reputationScore', reputationScore);
+        // } catch (error) {
+        //     console.log('Error running algorithm:', error);
+            
+        // }
+        
         // await api.network.disconnect()
     }
 

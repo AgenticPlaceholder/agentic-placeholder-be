@@ -1,7 +1,7 @@
 
 import { TrueApi, testnet } from '@truenetworkio/sdk'
 import { TrueConfig } from '@truenetworkio/sdk/dist/utils/cli-config'
-
+import {adAttestationSchema} from './schema/userAttestationSchema'
 // If you are not in a NodeJS environment, please comment the code following code:
 import dotenv from 'dotenv'
 dotenv.config()
@@ -22,12 +22,12 @@ export const config: TrueConfig = {
   },
   issuer: {
     name: 'agentic-placeholder-issuer',
-    hash: '0xc31528b38a9558025d3f0f9dc82d06eb1ee04186833b978b246a6495f7e7f5ff'
+    hash: '0xea1d3e711cee08ab926c7d973df37215ab47ae36b7cdd2d1aba1318948ff8bc1'
   },
   algorithm: {
-    id: undefined,
-    path: undefined,
-    schemas: []
+    id: 154,
+    path: 'acm',
+    schemas: [adAttestationSchema]
   },
 }
   
