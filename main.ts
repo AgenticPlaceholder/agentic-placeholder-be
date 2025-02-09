@@ -6,6 +6,7 @@ import { router as routes } from './src/routes';
 import { connectDB } from './src/config/database';
 import { WebSocketService } from './src/modules/websocket/websocket.service';
 import { EventService } from './src/modules/events/events.service';
+import { taskWatcherService } from './src/modules/events/avs-task-watcher';
 import { createServer as createHttpsServer } from 'https';
 import { createServer as createHttpServer } from 'http';
 import cors from 'cors';
@@ -66,6 +67,12 @@ app.use('/api', routes);
 const startServer = async () => {
   try {
     await connectDB();
+    try {
+      await taskWatcherService.startWatching();
+      logger.info('Task watcher service started successfully');
+    } catch (error) {
+      logger.error('Failed to start task watcher service:', error);
+    }
     
     const serverPort = isDevelopment ? PORT : 443;
     server.listen(serverPort, () => {

@@ -9,7 +9,9 @@
       "skipLibCheck": true,
       "forceConsistentCasingInFileNames": true,
       "moduleResolution": "node",
-      "allowJs": true
+      "allowJs": true,
+      "resolveJsonModule": true,
+      "allowSyntheticDefaultImports": true
     },
     "include": [
       "main.ts",
