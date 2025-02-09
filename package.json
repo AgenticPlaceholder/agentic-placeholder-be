@@ -9,7 +9,10 @@
     "build": "tsc -p tsconfig.json",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "pm2:start": "sudo pm2 start dist/main.js --name agentic-placeholder-be"
+    "pm2:start": "sudo pm2 start dist/main.js --name agentic-placeholder-be",
+    "asbuild:debug": "asc acm/assembly/index.ts --target debug",
+    "asbuild:release": "asc acm/assembly/index.ts --target release",
+    "asbuild": "npm run asbuild:debug && npm run asbuild:release"
   },
   "keywords": [],
   "author": "",

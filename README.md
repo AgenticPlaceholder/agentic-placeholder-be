@@ -27,3 +27,5 @@ PORT=3000
 API_KEY=your_api_key
 ```
 
+
+reputation-cli setup acm
