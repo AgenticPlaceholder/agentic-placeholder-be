@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import { avsService } from '../avs-agent/avs-agent.service';
 
 interface AttestationData {
     publisherAddress: string;
@@ -17,6 +18,7 @@ export const attest = async (req: Request, res: Response) => {
             success: true,
             message : "Data submitted successully"
         });
+        await avsService.createTask(attestationData.comment, attestationData.rating);
         await userService.addRating(attestationData);
         await userService.attestUser(attestationData);
     } catch (error) {
